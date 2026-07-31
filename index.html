@@ -53,6 +53,8 @@ h1,h2{margin:0;line-height:1.05}
 .title-copy .lead{margin:.7rem auto 0}
 .title .lead a{color:var(--brown);font-weight:600;text-decoration:underline;text-underline-offset:2px;pointer-events:auto}
 .title .lead a:hover{color:#000}
+main .col a{color:var(--brown);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+main .col a:hover{color:#000}
 .pin-text{position:absolute;left:50%;top:50%;width:100%;max-width:40rem;z-index:4;
   text-align:center;padding:0 1.4rem;pointer-events:none;opacity:var(--f2,0);
   transform:translate(-50%,calc(-50% + (1 - var(--f2,0)) * 46px))}
@@ -470,7 +472,7 @@ h2.sec{font-family:var(--head);font-size:2.7rem;margin:2.6rem 0 1.4rem}
 
 <main>
   <div class="col"><p class="p">Mamele revin la muncă pe poziții inferioare, li se iau din atribuții și bani pentru că au lipsit mult și e nevoie să demonstreze că încă sunt performante. Sunt marginalizate, în cel mai bun caz. Sau sunt privite ca niște privilegiate, în cel mai rău caz. Unii angajatorii le fac viața un calvar pentru a le obliga să-și dea demisia - le umilesc, le încarcă cu sarcini, le penalizează dacă cer program flexibil. Și mai sunt situațiile în care sunt concediate abuziv. Și toate aceste lucruri se întâmplă când femeile sunt oricum într-o situație vulnerabilă din punct de vedere psihologic și social.</p>
-<p class="p">Nu există țară pentru părinți care revin la serviciu. Acesta este titlul dosarului multimedia publicat pe Dela0.ro. Noianul de date colectate în cursul documentării sale a produs, printre altele, și concluzia că societatea abia vede acest fenomene abuzive, e oarbă la cauzele și consecințele lor, iar efectele negative pe termen lung sunt considerabile, atât în materie de muncă (unde productivitatea este afectată de reintegrări post-CIC eșuate), cât și în materie de natalitate (în condițiile în care România are perspective demografice alarmante).</p>
+<p class="p">Nu există țară pentru părinți care revin la serviciu. Acesta este titlul dosarului multimedia publicat pe Dela0.ro. Noianul de date colectate în cursul documentării sale a produs, printre altele, și concluzia că societatea abia vede aceste fenomene abuzive, e oarbă la cauzele și consecințele lor, iar efectele negative pe termen lung sunt considerabile, atât în materie de muncă (unde productivitatea este afectată de reintegrări post-CIC eșuate), cât și în materie de natalitate (în condițiile în care România are perspective demografice alarmante).</p>
 <p class="p">Și pentru că lucrurile stau așa, am lansat un apel la finalul articolului publicat în martie, punând la dispoziție un formular online pentru colectarea mai multor mărturii despre revenirea la muncă după CIC. Credem că problema expusă ar trebui să fie, în realitate, mult mai sus pe agenda publică adesea schimonosită de o clasă politică incapabilă de politici publice. Nu în ultimul rând, considerăm că strângerea acestor mărturii și publicarea lor reprezintă și o formă de memorie socială, de rezistență comunitară în fața trecerii cu vederea.</p>
 <p class="p">Una dintre mamele care au răspuns apelului nostru ne-a scris că ea și soțul ei își doresc un al doilea copil, dar nu crede că ar mai putea să treacă prin încă o revenire la locul de muncă după concediul pentru creșterea copilului. Pe femeie nu o sperie sarcina, nașterea, ci revenirea la muncă. Cum a fost revenirea? De la angajata valoroasă, implicată în procesele companiei înainte de copil, a ajuns angajata deranjantă, exclusă din procesele de decizie. Când s-a pus problema măririi salariilor în companie, creșterea ei a fost mai mică decât a colegilor - o consecință directă a post-maternității. Situația ei nu e deloc o excepție. Dimpotrivă. Excepții sunt situațiile care respectă legea și drepturile mamelor.</p></div>
 </main>
@@ -1136,7 +1138,9 @@ h2.sec{font-family:var(--head);font-size:2.7rem;margin:2.6rem 0 1.4rem}
 <script>
 
 (function(){
-  var KW=/(retrograd\w*|discrimin\w*|refuz\w*|concedi\w*|hărțuit\w*|depresi\w*|umplutur\w*|mărir\w*|pedeaps\w*|desființ\w*|marginaliz\w*|umilit\w*|penaliz\w*|vulnerabil\w*|abuziv\w*|abuzuri\w*|samavolnic\w*|dezinteres\w*|tăcere|reintegrar\w*|flexibil\w*|natalit\w*|demografic\w*|productivit\w*|inferioar\w*|reacomodar\w*)/gi;
+  var CH='[0-9A-Za-z_ăâîșțĂÂÎȘȚşţŞŢ]*';
+  var STEMS=['retrograd','discrimin','refuz','concedi','hărțuit','depresi','umplutur','mărir','pedeaps','desființ','marginaliz','umilit','penaliz','vulnerabil','abuziv','abuzuri','samavolnic','dezinteres','tăcer','reintegrar','flexibil','natalit','demografic','productivit','inferioar','reacomodar'];
+  var KW=new RegExp('('+STEMS.map(function(s){return s+CH;}).join('|')+')','gi');
   function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
   var ps=[].slice.call(document.querySelectorAll('main .col > p, main .col > .law > p'));
   ps.forEach(function(p){
@@ -1144,6 +1148,7 @@ h2.sec{font-family:var(--head);font-size:2.7rem;margin:2.6rem 0 1.4rem}
     var t=esc(p.textContent);
     t=t.replace(/(\d[\d.,]*\s?%|\d+\s+din\s+(?:cele\s+)?\d+)/g,'<span class="hl-data">$1</span>');
     t=t.replace(KW,'<span class="hl-word">$1</span>');
+    t=t.replace('Nu există țară pentru părinți care revin la serviciu','<a href="https://beta.dela0.ro/nu-exista-tara-pentru-parinti-care-revin-la-serviciu/" target="_blank" rel="noopener">Nu există țară pentru părinți care revin la serviciu</a>');
     p.innerHTML=t;
   });
 })();
